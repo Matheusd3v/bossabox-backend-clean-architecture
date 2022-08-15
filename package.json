@@ -1,0 +1,11 @@
+{
+  "name": "bossabox-backend-clean-architecture",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:Matheusd3v/bossabox-backend-clean-architecture.git",
+  "author": "Matheus",
+  "license": "MIT",
+  "devDependencies": {
+    "git-commit-msg-linter": "^4.1.3"
+  }
+}
