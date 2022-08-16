@@ -5,6 +5,8 @@ export default class SaveTool {
     constructor(private readonly toolRepository: ToolRepository) {}
 
     public async exec(toolDatas: ToolDTO) {
-        await this.toolRepository.saveTool(toolDatas);
+        const toolSaved = await this.toolRepository.saveTool(toolDatas);
+
+        return toolSaved;
     }
 }

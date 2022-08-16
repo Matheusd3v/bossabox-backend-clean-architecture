@@ -1,3 +1,4 @@
+import ToolAdapter from "../../../core/adapter/toolAdapter";
 import Tool from "../../../core/entities/tools";
 import ToolDTO from "../../../core/entities/toolsDTO";
 import ToolRepository from "../../../core/repositories/tool.repository";
@@ -11,18 +12,30 @@ export default class ToolRepositoryMemory implements ToolRepository {
         link,
         tags,
         title,
-    }: ToolDTO): Promise<void> {
+    }: ToolDTO): Promise<Tool> {
         this.lastId += 1;
         const id = this.lastId;
 
         const tool = { id, link, tags, title, description };
         this.toolsDB.push(tool);
+
+        return ToolAdapter.create(id, title, description, link, tags);
     }
 
     public async getToolById(id: number): Promise<Tool> {
-        const tool = this.toolsDB.find((tool) => tool.id === id) as Tool;
+        const tool = this.toolsDB.find((tool) => tool.id === id);
 
-        return tool;
+        if (tool) {
+            return ToolAdapter.create(
+                tool.id as number,
+                tool.title,
+                tool.description,
+                tool.link,
+                tool.tags
+            );
+        }
+
+        return {} as Tool;
     }
 
     public async getAllTools(): Promise<Tool[]> {

@@ -6,7 +6,7 @@ export default class GetTool {
     public async exec(id: number) {
         const tool = await this.toolRepository.getToolById(id);
 
-        if (!tool) {
+        if (!tool.id) {
             throw new Error("Tool not found");
         }
 
