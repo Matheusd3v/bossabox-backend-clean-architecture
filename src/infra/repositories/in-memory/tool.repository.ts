@@ -1,4 +1,3 @@
-import ToolAdapter from "../../../core/adapter/toolAdapter";
 import Tool from "../../../core/entities/tools";
 import ToolDTO from "../../../core/entities/toolsDTO";
 import ToolRepository from "../../../core/repositories/tool.repository";
