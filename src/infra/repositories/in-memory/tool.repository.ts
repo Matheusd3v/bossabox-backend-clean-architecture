@@ -21,18 +21,12 @@ export default class ToolRepositoryMemory implements ToolRepository {
     }
 
     public async getToolById(id: number): Promise<Tool> {
-        const data = this.toolsDB.find((tool) => tool.id === id);
-
-        const tool = data
-            ? ToolAdapter.create(
-                  data.id as number,
-                  data.title,
-                  data.description,
-                  data.link,
-                  data.tags
-              )
-            : ({} as Tool);
+        const tool = this.toolsDB.find((tool) => tool.id === id) as Tool;
 
         return tool;
+    }
+
+    public async getAllTools(): Promise<Tool[]> {
+        return this.toolsDB;
     }
 }
