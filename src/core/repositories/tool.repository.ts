@@ -1,6 +1,6 @@
 import Tool from "../entities/tools";
-
+import ToolDTO from "../entities/toolsDTO";
 export default interface ToolRepository {
-    saveTool(toolDatas: Tool): Promise<void>
-    getToolById(id: string): Promise<Tool>
+    saveTool(toolDatas: ToolDTO): Promise<void>
+    getToolById(id: number): Promise<Tool>
 }
