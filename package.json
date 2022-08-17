@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "dev": "ts-node-dev --transpile-only --inspect --ignore-watch node_modules --respawn src/infra/http/express.ts",
+    "dev": "ts-node-dev --transpile-only --inspect --ignore-watch node_modules --respawn src/infra/http/express/server.ts",
     "start": "node dist/infra/http/express.js",
     "test": "jest --passWithNoTests --clearMocks --runInBand",
     "test:unit": "jest --passWithNoTests --runInBand --verbose ./tests/unit"
