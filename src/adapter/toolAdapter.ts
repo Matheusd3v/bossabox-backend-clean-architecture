@@ -1,4 +1,4 @@
-import Tool from "../entities/tools";
+import Tool from "../core/entities/tools";
 
 export default class ToolAdapter {
     static create(
