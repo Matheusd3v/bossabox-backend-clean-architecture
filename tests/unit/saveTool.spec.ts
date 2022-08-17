@@ -11,7 +11,7 @@ describe("Unit tests to save tool use case", () => {
 
         const allTools = await getAllTools.exec();
 
-        expect(allTools[0]).toStrictEqual(tool);
+        expect(allTools).toContainEqual(tool);
         expect(allTools[0].id).toBeTruthy();
         expect(allTools[0].title).toBeTruthy();
         expect(allTools[0].description).toBeTruthy();
