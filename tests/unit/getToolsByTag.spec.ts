@@ -38,4 +38,19 @@ describe("Unit tests to useCase GetToolsByTag", () => {
         expect(toolsFiltered[2].tags).toContain("nodejs");
         expect(toolsFiltered[3].tags).toContain("nodejs");
     });
+
+    it("Should throw an error when tool id not exists", async () => {
+        await createManyTools(5, "nodejs");
+        const getTools = new GetToolsByTag(memoryRepo);
+
+        let message = "";
+
+        try {
+            await getTools.exec("react");
+        } catch (error) {
+            if (error instanceof Error) message = error.message;
+        }
+
+        expect(message).toStrictEqual("Not found tools with this tag");
+    });
 });

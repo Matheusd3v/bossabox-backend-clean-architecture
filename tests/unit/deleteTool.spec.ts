@@ -24,4 +24,19 @@ describe("Unit tests to deleteTool useCase", () => {
 
         expect(dbAfterDelete.length).toBe(0);
     });
+
+    it("Should throw an error when tool id not exists", async () => {
+        const memoryRepo = new ToolRepositoryMemory();
+        const deleteTool = new DeleteTool(memoryRepo);
+
+        let message = "";
+
+        try {
+            await deleteTool.exec(36);
+        } catch (error) {
+            if (error instanceof Error) message = error.message;
+        }
+
+        expect(message).toStrictEqual("Tool not found");
+    });
 });

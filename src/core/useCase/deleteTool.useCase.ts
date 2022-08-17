@@ -7,7 +7,7 @@ export default class DeleteTool {
         const tool = await this.repository.getToolById(id);
 
         if (!tool.id) {
-            throw new Error("Tool not nound");
+            throw new Error("Tool not found");
         }
 
         await this.repository.deleteTool(id);

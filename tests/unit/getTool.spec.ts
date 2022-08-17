@@ -20,4 +20,19 @@ describe("Unit tests to get tool use case", () => {
         expect(toolFromDB.tags).toStrictEqual(tags);
         expect(toolFromDB.link).toStrictEqual(link);
     });
+
+    it("Should throw an error when tool id not exists", async () => {
+        const memoryRepo = new ToolRepositoryMemory();
+        const getTool = new GetTool(memoryRepo);
+
+        let message = "";
+
+        try {
+            await getTool.exec(36);
+        } catch (error) {
+            if (error instanceof Error) message = error.message;
+        }
+
+        expect(message).toStrictEqual("Tool not found");
+    });
 });
