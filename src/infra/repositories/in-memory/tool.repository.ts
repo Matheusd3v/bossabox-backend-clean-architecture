@@ -56,11 +56,17 @@ export default class ToolRepositoryMemory implements ToolRepository {
         return serialized;
     }
 
-    filterByTag(tag: string): Promise<Tool[]> {
-        throw new Error("Method not implemented.");
+    public async filterByTag(tag: string): Promise<Tool[]> {
+        const tools = this.toolsDB.filter((tool) => tool.tags.includes(tag));
+
+        return tools;
     }
 
-    deleteTool(id: number): Promise<void> {
-        throw new Error("Method not implemented.");
+    public async deleteTool(id: number): Promise<void> {
+        const index = this.toolsDB.findIndex((tool) => tool.id === id);
+
+        const newDB = this.toolsDB.filter((tool, idx) => idx !== index);
+
+        this.toolsDB = newDB;
     }
 }
