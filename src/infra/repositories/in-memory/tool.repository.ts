@@ -55,4 +55,12 @@ export default class ToolRepositoryMemory implements ToolRepository {
 
         return serialized;
     }
+
+    filterByTag(tag: string): Promise<Tool[]> {
+        throw new Error("Method not implemented.");
+    }
+
+    deleteTool(id: number): Promise<void> {
+        throw new Error("Method not implemented.");
+    }
 }

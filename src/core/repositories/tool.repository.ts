@@ -4,4 +4,6 @@ export default interface ToolRepository {
     saveTool(toolDatas: ToolDTO): Promise<Tool>;
     getToolById(id: number): Promise<Tool>;
     getAllTools(): Promise<Tool[]>;
+    filterByTag(tag: string): Promise<Tool[]>;
+    deleteTool(id: number): Promise<void>;
 }
