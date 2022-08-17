@@ -39,6 +39,20 @@ export default class ToolRepositoryMemory implements ToolRepository {
     }
 
     public async getAllTools(): Promise<Tool[]> {
-        return this.toolsDB;
+        if (this.toolsDB.length < 1) {
+            return [];
+        }
+
+        const serialized = this.toolsDB.map((tool) => {
+            return ToolAdapter.create(
+                tool.id as number,
+                tool.title,
+                tool.description,
+                tool.link,
+                tool.tags
+            );
+        });
+
+        return serialized;
     }
 }

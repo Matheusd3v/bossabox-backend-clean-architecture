@@ -9,7 +9,8 @@
     "build": "tsc",
     "dev": "ts-node-dev --transpile-only --inspect --ignore-watch node_modules --respawn src/infra/http/express.ts",
     "start": "node dist/infra/http/express.js",
-    "test": "jest --passWithNoTests --clearMocks --runInBand"
+    "test": "jest --passWithNoTests --clearMocks --runInBand",
+    "test:unit": "jest --passWithNoTests ./tests/unit"
   },
   "devDependencies": {
     "@faker-js/faker": "^7.4.0",
