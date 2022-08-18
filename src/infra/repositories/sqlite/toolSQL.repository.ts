@@ -19,9 +19,13 @@ export default class ToolRepositorySqlite implements ToolRepository {
     }
 
     public async getToolById(id: number): Promise<Tool> {
-        const tool = await database.manager.findOneByOrFail(Tools, { id });
+        const tool = await database.manager.findOne(Tools, { where: { id } });
 
-        const tag = tool?.tags.split(",");
+        if (!tool) {
+            throw new Error("Tool not found");
+        }
+
+        const tag = tool.tags.split(",");
 
         return ToolAdapter.create(
             tool.id,

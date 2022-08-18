@@ -3,15 +3,12 @@ import app from "./app";
 
 const PORT = 3000;
 
-// (async () =>
-//     AppDataSource.initialize()
-//         .then(() => console.log("DB connected"))
-//         .catch((e) => console.log("DB failed", e))
-// )();
+(async () =>
+    await AppDataSource.initialize()
+        .then(() => console.log("DB connected"))
+        .catch((e) => console.log("DB failed", e))
+)();
 
 app.listen(PORT, () => {
     console.log(`Running at:: ${3000}`);
-    AppDataSource.initialize()
-        .then(() => console.log("DB connected"))
-        .catch((e) => console.log("DB failed", e))
 });
