@@ -18,8 +18,18 @@ export default class ToolRepositorySqlite implements ToolRepository {
         return ToolAdapter.create(id, title, description, link, tagsArr);
     }
 
-    getToolById(id: number): Promise<Tool> {
-        throw new Error("Method not implemented.");
+    public async getToolById(id: number): Promise<Tool> {
+        const tool = await database.manager.findOneByOrFail(Tools, { id });
+
+        const tag = tool?.tags.split(",");
+
+        return ToolAdapter.create(
+            tool.id,
+            tool.title,
+            tool.description,
+            tool.link,
+            tag
+        );
     }
 
     getAllTools(): Promise<Tool[]> {

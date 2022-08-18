@@ -18,6 +18,7 @@ const databaseConfig: { [key: string]: DataSourceOptions } = {
         database: "./tests/DBtest.db",
         synchronize: true,
         logging: false,
+        dropSchema: true,
         entities: ["src/infra/database/entities/**/*.*"],
     },
 };
