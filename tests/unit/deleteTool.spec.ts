@@ -2,11 +2,17 @@ import ToolFactory from "../../src/core/factories/toolFactory";
 import DeleteTool from "../../src/core/useCase/deleteTool.useCase";
 import GetAllTools from "../../src/core/useCase/getAllTools.useCase";
 import GetTool from "../../src/core/useCase/getTool.useCase";
+import AppDataSource from "../../src/infra/database/data-source";
 import ToolRepositoryMemory from "../../src/infra/repositories/in-memory/tool.repository";
+import ToolRepositorySqlite from "../../src/infra/repositories/sqlite/toolSQL.repository";
 
 describe("Unit tests to deleteTool useCase", () => {
+    beforeAll(async () => await AppDataSource.initialize());
+
+    afterAll(async () => await AppDataSource.destroy());
+
     it("Should be able to delete a tool from DB", async () => {
-        const memoryRepo = new ToolRepositoryMemory();
+        const memoryRepo = new ToolRepositorySqlite();
         const getTool = new GetTool(memoryRepo);
         const getAllTools = new GetAllTools(memoryRepo);
         const deleteTool = new DeleteTool(memoryRepo);
@@ -26,7 +32,7 @@ describe("Unit tests to deleteTool useCase", () => {
     });
 
     it("Should throw an error when tool id not exists", async () => {
-        const memoryRepo = new ToolRepositoryMemory();
+        const memoryRepo = new ToolRepositorySqlite();
         const deleteTool = new DeleteTool(memoryRepo);
 
         let message = "";

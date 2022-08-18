@@ -1,10 +1,15 @@
 import ToolFactory from "../../src/core/factories/toolFactory";
 import GetTool from "../../src/core/useCase/getTool.useCase";
-import ToolRepositoryMemory from "../../src/infra/repositories/in-memory/tool.repository";
+import AppDataSource from "../../src/infra/database/data-source";
+import ToolRepositorySqlite from "../../src/infra/repositories/sqlite/toolSQL.repository";
 
 describe("Unit tests to get tool use case", () => {
+    beforeAll(async () => await AppDataSource.initialize());
+
+    afterAll(async () => await AppDataSource.destroy());
+
     it("Should be able to get a existent tool from DB an return it", async () => {
-        const memoryRepo = new ToolRepositoryMemory();
+        const memoryRepo = new ToolRepositorySqlite();
         const getTool = new GetTool(memoryRepo);
 
         const { id, title, description, tags, link } = await ToolFactory(
@@ -22,7 +27,7 @@ describe("Unit tests to get tool use case", () => {
     });
 
     it("Should throw an error when tool id not exists", async () => {
-        const memoryRepo = new ToolRepositoryMemory();
+        const memoryRepo = new ToolRepositorySqlite();
         const getTool = new GetTool(memoryRepo);
 
         let message = "";

@@ -3,10 +3,16 @@ import { faker } from "@faker-js/faker";
 import Tool from "../../src/core/entities/tools";
 import GetToolsByTag from "../../src/core/useCase/getToolsByTag.useCase";
 import SaveTool from "../../src/core/useCase/saveTool.useCase";
+import AppDataSource from "../../src/infra/database/data-source";
 import ToolRepositoryMemory from "../../src/infra/repositories/in-memory/tool.repository";
+import ToolRepositorySqlite from "../../src/infra/repositories/sqlite/toolSQL.repository";
 
 describe("Unit tests to useCase GetToolsByTag", () => {
-    const memoryRepo = new ToolRepositoryMemory();
+    beforeAll(async () => await AppDataSource.initialize());
+
+    afterAll(async () => await AppDataSource.destroy());
+
+    const memoryRepo = new ToolRepositorySqlite();
 
     const createManyTools = async (quantity: number, tag?: string) => {
         const tools: Tool[] = [];

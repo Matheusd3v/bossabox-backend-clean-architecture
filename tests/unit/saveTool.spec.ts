@@ -1,10 +1,15 @@
 import ToolFactory from "../../src/core/factories/toolFactory";
 import GetAllTools from "../../src/core/useCase/getAllTools.useCase";
-import ToolRepositoryMemory from "../../src/infra/repositories/in-memory/tool.repository";
+import AppDataSource from "../../src/infra/database/data-source";
+import ToolRepositorySqlite from "../../src/infra/repositories/sqlite/toolSQL.repository";
 
 describe("Unit tests to save tool use case", () => {
+    beforeAll(async () => await AppDataSource.initialize());
+
+    afterAll(async () => await AppDataSource.destroy());
+
     it("Should be able to save a new tool, and return tool from DB", async () => {
-        const memoryRepo = new ToolRepositoryMemory();
+        const memoryRepo = new ToolRepositorySqlite();
         const getAllTools = new GetAllTools(memoryRepo);
 
         const tool = await ToolFactory(memoryRepo);

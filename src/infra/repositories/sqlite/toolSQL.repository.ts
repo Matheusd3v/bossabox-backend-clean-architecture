@@ -1,3 +1,5 @@
+import { ILike } from "typeorm";
+
 import ToolAdapter from "../../../adapter/toolAdapter";
 import Tool from "../../../core/entities/tools";
 import toolsDTO from "../../../core/entities/toolsDTO";
@@ -36,15 +38,49 @@ export default class ToolRepositorySqlite implements ToolRepository {
         );
     }
 
-    getAllTools(): Promise<Tool[]> {
-        throw new Error("Method not implemented.");
+    public async getAllTools(): Promise<Tool[]> {
+        const tools = await database.manager.find(Tools);
+
+        const formatTags = tools.map((tool) => {
+            const tags = tool.tags.split(",");
+
+            return { ...tool, tags };
+        });
+
+        return formatTags.map((tool) =>
+            ToolAdapter.create(
+                tool.id,
+                tool.title,
+                tool.description,
+                tool.link,
+                tool.tags
+            )
+        );
     }
 
-    filterByTag(tag: string): Promise<Tool[]> {
-        throw new Error("Method not implemented.");
+    public async filterByTag(tag: string): Promise<Tool[]> {
+        const tools = await database.manager.findBy(Tools, {
+            tags: ILike(`%${tag}%`),
+        });
+
+        const formatTags = tools.map((tool) => {
+            const tags = tool.tags.split(",");
+
+            return { ...tool, tags };
+        });
+
+        return formatTags.map((tool) =>
+            ToolAdapter.create(
+                tool.id,
+                tool.title,
+                tool.description,
+                tool.link,
+                tool.tags
+            )
+        );
     }
 
-    deleteTool(id: number): Promise<void> {
-        throw new Error("Method not implemented.");
+    public async deleteTool(id: number): Promise<void> {
+        await database.manager.delete(Tools, id);
     }
 }
