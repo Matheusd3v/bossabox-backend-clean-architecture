@@ -1,15 +1,18 @@
 import { Router, Express } from "express";
 
 import ExpressAdapter from "../../../../../adapter/expressAdapter";
+import RetrieveAllToolsController from "../../../../../controller/retrieveAllTools.controller";
 import RetrieveToolController from "../../../../../controller/retrieveTool.controller";
 import SaveToolController from "../../../../../controller/saveTool.controller";
 
 const toolRoutes = (app: Express) => {
     const route = Router();
 
-    route.post("/tool", ExpressAdapter.create(SaveToolController.exec));
+    route.post("/tools", ExpressAdapter.create(SaveToolController.exec));
 
-    route.get("/tool/:id", ExpressAdapter.create(RetrieveToolController.exec));
+    route.get("/tools/:id", ExpressAdapter.create(RetrieveToolController.exec));
+
+    route.get("/tools", ExpressAdapter.create(RetrieveAllToolsController.exec));
 
     app.use("/api/v1", route);
 };
