@@ -7,6 +7,6 @@ export default class SaveToolController {
         const saveTool = new SaveTool(repository);
         const toolSaved = await saveTool.exec(body);
 
-        return toolSaved;
+        return { statusCode: 201, obj: toolSaved };
     }
 }

@@ -8,6 +8,6 @@ export default class DeleteToolController {
         const deleteTool = new DeleteTool(repository);
         await deleteTool.exec(id);
 
-        return {};
+        return { statusCode: 200, obj: {} };
     }
 }

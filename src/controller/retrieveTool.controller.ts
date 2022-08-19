@@ -8,6 +8,6 @@ export default class RetrieveToolController {
         const getTool = new GetTool(repository);
         const tool = await getTool.exec(id);
 
-        return tool;
+        return { statusCode: 200, obj: tool };
     }
 }

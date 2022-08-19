@@ -17,6 +17,6 @@ export default class RetrieveAllToolsController {
         const getTools = new GetAllTools(repository);
         const tools = await getTools.exec();
 
-        return tools;
+        return { statusCode: 200, obj: tools };
     }
 }
