@@ -9,18 +9,19 @@ import ToolRepositorySqlite from "../../src/infra/repositories/sqlite/toolSQL.re
 describe("Unit tests to deleteTool useCase", () => {
     beforeAll(async () => await AppDataSource.initialize());
 
-    afterAll(async () => await AppDataSource.destroy());
-
+    afterAll(async () => {
+        await AppDataSource.dropDatabase()
+        await AppDataSource.destroy()
+    });
+    
     it("Should be able to delete a tool from DB", async () => {
-        const memoryRepo = new ToolRepositorySqlite();
-        const getTool = new GetTool(memoryRepo);
-        const getAllTools = new GetAllTools(memoryRepo);
-        const deleteTool = new DeleteTool(memoryRepo);
-
-        const { id, title } = await ToolFactory(memoryRepo);
-
+        const toolRepository = new ToolRepositorySqlite();
+        const getTool = new GetTool(toolRepository);
+        const getAllTools = new GetAllTools(toolRepository);
+        const deleteTool = new DeleteTool(toolRepository);
+        const { id, title } = await ToolFactory(toolRepository);
         const tool = await getTool.exec(id as number);
-
+        
         expect(tool.id).toEqual(id);
         expect(tool.title).toStrictEqual(title);
 
@@ -32,17 +33,10 @@ describe("Unit tests to deleteTool useCase", () => {
     });
 
     it("Should throw an error when tool id not exists", async () => {
-        const memoryRepo = new ToolRepositorySqlite();
-        const deleteTool = new DeleteTool(memoryRepo);
+        const toolRepository = new ToolRepositorySqlite();
+        const deleteTool = new DeleteTool(toolRepository);
+        const response = deleteTool.exec(36);
 
-        let message = "";
-
-        try {
-            await deleteTool.exec(36);
-        } catch (error) {
-            if (error instanceof Error) message = error.message;
-        }
-
-        expect(message).toStrictEqual("Tool not found");
+        await expect(response).rejects.toThrowError("Tool not found");
     });
 });

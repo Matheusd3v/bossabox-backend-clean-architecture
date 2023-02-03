@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 
-import Tool from "../../src/core/entities/tools";
+import ToolRepository from "../../src/core/repositories/tool.repository";
 import GetToolsByTag from "../../src/core/useCase/getToolsByTag.useCase";
 import SaveTool from "../../src/core/useCase/saveTool.useCase";
 import AppDataSource from "../../src/infra/database/data-source";
@@ -10,13 +10,13 @@ import ToolRepositorySqlite from "../../src/infra/repositories/sqlite/toolSQL.re
 describe("Unit tests to useCase GetToolsByTag", () => {
     beforeAll(async () => await AppDataSource.initialize());
 
-    afterAll(async () => await AppDataSource.destroy());
+    afterAll(async () => {
+        await AppDataSource.dropDatabase()
+        await AppDataSource.destroy()
+    });
 
-    const memoryRepo = new ToolRepositorySqlite();
-
-    const createManyTools = async (quantity: number, tag?: string) => {
-        const tools: Tool[] = [];
-        const saveTool = new SaveTool(memoryRepo);
+    const createManyTools = async (toolRepository: ToolRepository, quantity: number, tag?: string) => {
+        const saveTool = new SaveTool(toolRepository);
         const data = {
             title: faker.word.conjunction(),
             description: faker.random.words(5),
@@ -25,18 +25,17 @@ describe("Unit tests to useCase GetToolsByTag", () => {
         };
 
         for (let index = 0; index < quantity; index++) {
-            const newTool = await saveTool.exec(data);
-            tools.push(newTool);
+            await saveTool.exec(data);
         }
-
-        return tools;
     };
 
     it("Should be able to filter tools by tag and return the list", async () => {
-        await createManyTools(4, "nodejs");
-        const filterByTag = new GetToolsByTag(memoryRepo);
-
+        const toolRepository = new ToolRepositorySqlite();
+        await createManyTools(toolRepository, 4, "nodejs");
+        const filterByTag = new GetToolsByTag(toolRepository);
+       
         const toolsFiltered = await filterByTag.exec("nodejs");
+       
 
         expect(toolsFiltered.length).toEqual(4);
         expect(toolsFiltered[0].tags).toContain("nodejs");
@@ -46,8 +45,9 @@ describe("Unit tests to useCase GetToolsByTag", () => {
     });
 
     it("Should throw an error when tool id not exists", async () => {
-        await createManyTools(5, "nodejs");
-        const getTools = new GetToolsByTag(memoryRepo);
+        const toolRepository = new ToolRepositorySqlite();
+        await createManyTools(toolRepository, 5, "nodejs");
+        const getTools = new GetToolsByTag(toolRepository);
 
         let message = "";
 

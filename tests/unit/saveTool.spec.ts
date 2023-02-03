@@ -6,13 +6,16 @@ import ToolRepositorySqlite from "../../src/infra/repositories/sqlite/toolSQL.re
 describe("Unit tests to save tool use case", () => {
     beforeAll(async () => await AppDataSource.initialize());
 
-    afterAll(async () => await AppDataSource.destroy());
+    afterAll(async () => {
+        await AppDataSource.dropDatabase()
+        await AppDataSource.destroy()
+    });
 
     it("Should be able to save a new tool, and return tool from DB", async () => {
-        const memoryRepo = new ToolRepositorySqlite();
-        const getAllTools = new GetAllTools(memoryRepo);
+        const toolRepository = new ToolRepositorySqlite();
+        const getAllTools = new GetAllTools(toolRepository);
 
-        const tool = await ToolFactory(memoryRepo);
+        const tool = await ToolFactory(toolRepository);
 
         const allTools = await getAllTools.exec();
 
