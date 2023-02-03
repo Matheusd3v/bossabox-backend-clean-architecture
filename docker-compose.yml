@@ -1,0 +1,31 @@
+services:
+  postgres_db:
+    container_name: postgres_container
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_DB=${DB_NAME}
+    expose: 
+    - ${DB_PORT}
+    ports:
+      - ${DB_PORT}:${DB_PORT}    
+    command: -p ${DB_PORT}
+  
+  api: 
+    container_name: bossabox_api
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres_db
+    volumes: 
+      - ./src:/app/src
+      - ./tests:/app/tests
+    expose:
+    - ${PORT}
+    ports: 
+    - ${PORT}:${PORT}
+    env_file:
+      - .env
+    command: sh -c 'yarn dev'
