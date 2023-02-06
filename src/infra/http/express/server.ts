@@ -1,7 +1,11 @@
+import { config } from "dotenv";
+
 import AppDataSource from "../../database/data-source";
 import app from "./app";
 
-const PORT = 3000;
+config();
+
+const PORT = Number(process.env.PORT);
 
 (async () =>
     await AppDataSource.initialize()
