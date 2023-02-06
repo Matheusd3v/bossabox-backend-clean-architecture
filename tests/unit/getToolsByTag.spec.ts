@@ -6,6 +6,7 @@ import SaveTool from "../../src/core/useCase/saveTool.useCase";
 import AppDataSource from "../../src/infra/database/data-source";
 import ToolRepositoryMemory from "../../src/infra/repositories/in-memory/tool.repository";
 import ToolRepositorySqlite from "../../src/infra/repositories/sqlite/toolSQL.repository";
+import { NotFoundError } from "../../src/presentation/Errors/notFound.error";
 
 describe("Unit tests to useCase GetToolsByTag", () => {
     beforeAll(async () => await AppDataSource.initialize());
@@ -17,15 +18,14 @@ describe("Unit tests to useCase GetToolsByTag", () => {
 
     const createManyTools = async (toolRepository: ToolRepository, quantity: number, tag?: string) => {
         const saveTool = new SaveTool(toolRepository);
-        const data = {
-            title: faker.word.conjunction(),
-            description: faker.random.words(5),
-            tags: [`${faker.word.noun()}`, tag || "test"],
-            link: faker.internet.url(),
-        };
 
         for (let index = 0; index < quantity; index++) {
-            await saveTool.exec(data);
+            await saveTool.exec({
+                title: faker.word.conjunction(),
+                description: faker.random.words(5),
+                tags: [`${faker.word.noun()}`, tag || "test"],
+                link: faker.internet.url(),
+            });
         }
     };
 
@@ -48,15 +48,8 @@ describe("Unit tests to useCase GetToolsByTag", () => {
         const toolRepository = new ToolRepositorySqlite();
         await createManyTools(toolRepository, 5, "nodejs");
         const getTools = new GetToolsByTag(toolRepository);
+        const response =  getTools.exec("react");
 
-        let message = "";
-
-        try {
-            await getTools.exec("react");
-        } catch (error) {
-            if (error instanceof Error) message = error.message;
-        }
-
-        expect(message).toStrictEqual("Not found tools with this tag");
+        await expect(response).rejects.toThrow(NotFoundError)
     });
 });

@@ -2,6 +2,7 @@ import ToolFactory from "../../src/core/factories/toolFactory";
 import GetTool from "../../src/core/useCase/getTool.useCase";
 import AppDataSource from "../../src/infra/database/data-source";
 import ToolRepositorySqlite from "../../src/infra/repositories/sqlite/toolSQL.repository";
+import { NotFoundError } from "../../src/presentation/Errors/notFound.error";
 
 describe("Unit tests to get tool use case", () => {
     beforeAll(async () => await AppDataSource.initialize());
@@ -32,15 +33,8 @@ describe("Unit tests to get tool use case", () => {
     it("Should throw an error when tool id not exists", async () => {
         const toolRepository = new ToolRepositorySqlite();
         const getTool = new GetTool(toolRepository);
+        const response = getTool.exec(999) 
 
-        let message = "";
-
-        try {
-            await getTool.exec(36);
-        } catch (error) {
-            if (error instanceof Error) message = error.message;
-        }
-
-        expect(message).toStrictEqual("Tool not found");
+        await expect(response).rejects.toThrow(NotFoundError)
     });
 });

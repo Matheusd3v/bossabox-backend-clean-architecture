@@ -6,11 +6,11 @@ export default class GetTool {
 
     public async exec(id: number) {
         const tool = await this.toolRepository.getToolById(id);
-
+        
         if (!tool.id) {
             throw new NotFoundError("Tool not found");
         }
-
+        
         return tool;
     }
 }

@@ -32,7 +32,7 @@ export default class ToolRepositorySqlite implements ToolRepository {
         const tool = await database.manager.findOne(Tools, { where: { id } });
 
         if (!tool) {
-            throw new NotFoundError("Tool not found");
+            return {} as Tool
         }
 
         const tag = tool.tags.split(",");

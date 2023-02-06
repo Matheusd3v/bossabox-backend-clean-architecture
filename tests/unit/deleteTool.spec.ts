@@ -5,6 +5,7 @@ import GetTool from "../../src/core/useCase/getTool.useCase";
 import AppDataSource from "../../src/infra/database/data-source";
 import ToolRepositoryMemory from "../../src/infra/repositories/in-memory/tool.repository";
 import ToolRepositorySqlite from "../../src/infra/repositories/sqlite/toolSQL.repository";
+import { NotFoundError } from "../../src/presentation/Errors/notFound.error";
 
 describe("Unit tests to deleteTool useCase", () => {
     beforeAll(async () => await AppDataSource.initialize());
@@ -37,6 +38,6 @@ describe("Unit tests to deleteTool useCase", () => {
         const deleteTool = new DeleteTool(toolRepository);
         const response = deleteTool.exec(36);
 
-        await expect(response).rejects.toThrowError("Tool not found");
+        await expect(response).rejects.toThrowError(NotFoundError);
     });
 });
