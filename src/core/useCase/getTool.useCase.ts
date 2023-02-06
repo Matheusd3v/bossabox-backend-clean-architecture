@@ -1,3 +1,4 @@
+import { NotFoundError } from "../../presentation/Errors/notFound.error";
 import ToolRepository from "../repositories/tool.repository";
 
 export default class GetTool {
@@ -7,7 +8,7 @@ export default class GetTool {
         const tool = await this.toolRepository.getToolById(id);
 
         if (!tool.id) {
-            throw new Error("Tool not found");
+            throw new NotFoundError("Tool not found");
         }
 
         return tool;

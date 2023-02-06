@@ -1,3 +1,4 @@
+import { NotFoundError } from "../../presentation/Errors/notFound.error";
 import ToolRepository from "../repositories/tool.repository";
 
 export default class GetToolsByTag {
@@ -7,7 +8,7 @@ export default class GetToolsByTag {
         const tools = await this.repository.filterByTag(tag);
 
         if (tools.length < 1) {
-            throw new Error("Not found tools with this tag");
+            throw new NotFoundError("Not found tools with this tag");
         }
 
         return tools;

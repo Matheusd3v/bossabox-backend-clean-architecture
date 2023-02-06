@@ -4,10 +4,18 @@ import ToolAdapter from "../../../adapter/toolAdapter";
 import Tool from "../../../core/entities/tools";
 import toolsDTO from "../../../core/entities/toolsDTO";
 import ToolRepository from "../../../core/repositories/tool.repository";
+import { NotFoundError } from "../../../presentation/Errors/notFound.error";
 import database from "../../database/data-source";
 import Tools from "../../database/entities/Tools";
 
 export default class ToolRepositorySqlite implements ToolRepository {
+    public async alreadyExists(name: string): Promise<boolean> {
+        const tool = await database.manager.findOne(Tools, { where: { title: ILike(name) } });
+
+        return Boolean(tool)
+    }
+
+
     public async saveTool(toolDatas: toolsDTO): Promise<Tool> {
         const tagsJoined = toolDatas.tags.join(",");
         const dataToSave = { ...toolDatas, tags: tagsJoined };
@@ -24,7 +32,7 @@ export default class ToolRepositorySqlite implements ToolRepository {
         const tool = await database.manager.findOne(Tools, { where: { id } });
 
         if (!tool) {
-            throw new Error("Tool not found");
+            throw new NotFoundError("Tool not found");
         }
 
         const tag = tool.tags.split(",");
