@@ -6,6 +6,10 @@ import ToolRepository from "../../../core/repositories/tool.repository";
 export default class ToolRepositoryMemory implements ToolRepository {
     private toolsDB: ToolDTO[] = [];
     private lastId = 0;
+    
+    public async alreadyExists(name: string): Promise<boolean> {
+        return this.toolsDB.some(tool => tool.description === name)
+    }
 
     public async saveTool({
         description,
