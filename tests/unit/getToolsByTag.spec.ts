@@ -5,18 +5,22 @@ import GetToolsByTag from "../../src/core/useCase/getToolsByTag.useCase";
 import SaveTool from "../../src/core/useCase/saveTool.useCase";
 import AppDataSource from "../../src/infra/database/data-source";
 import ToolRepositoryMemory from "../../src/infra/repositories/in-memory/tool.repository";
-import ToolRepositorySqlite from "../../src/infra/repositories/sqlite/toolSQL.repository";
+import ToolRepositorySqlite from "../../src/infra/repositories/sql/toolSQLite.repository";
 import { NotFoundError } from "../../src/presentation/Errors/notFound.error";
 
 describe("Unit tests to useCase GetToolsByTag", () => {
     beforeAll(async () => await AppDataSource.initialize());
 
     afterAll(async () => {
-        await AppDataSource.dropDatabase()
-        await AppDataSource.destroy()
+        await AppDataSource.dropDatabase();
+        await AppDataSource.destroy();
     });
 
-    const createManyTools = async (toolRepository: ToolRepository, quantity: number, tag?: string) => {
+    const createManyTools = async (
+        toolRepository: ToolRepository,
+        quantity: number,
+        tag?: string
+    ) => {
         const saveTool = new SaveTool(toolRepository);
 
         for (let index = 0; index < quantity; index++) {
@@ -33,9 +37,8 @@ describe("Unit tests to useCase GetToolsByTag", () => {
         const toolRepository = new ToolRepositorySqlite();
         await createManyTools(toolRepository, 4, "nodejs");
         const filterByTag = new GetToolsByTag(toolRepository);
-       
+
         const toolsFiltered = await filterByTag.exec("nodejs");
-       
 
         expect(toolsFiltered.length).toEqual(4);
         expect(toolsFiltered[0].tags).toContain("nodejs");
@@ -48,8 +51,8 @@ describe("Unit tests to useCase GetToolsByTag", () => {
         const toolRepository = new ToolRepositorySqlite();
         await createManyTools(toolRepository, 5, "nodejs");
         const getTools = new GetToolsByTag(toolRepository);
-        const response =  getTools.exec("react");
+        const response = getTools.exec("react");
 
-        await expect(response).rejects.toThrow(NotFoundError)
+        await expect(response).rejects.toThrow(NotFoundError);
     });
 });
