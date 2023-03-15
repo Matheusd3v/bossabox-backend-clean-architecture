@@ -11,7 +11,7 @@ const databaseConfig: { [key: string]: DataSourceOptions } = {
         username: process.env.DB_USER,
         password: process.env.DB_PASS,
         host: process.env.DB_HOST,
-        port: +(process.env.DB_PORT ?? 3000),
+        port: +(process.env.DB_PORT ?? 5432),
         synchronize: true,
         logging: false,
         entities: ["src/infra/database/entities/**/*.*"],

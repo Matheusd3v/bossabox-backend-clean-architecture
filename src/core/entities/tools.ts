@@ -12,10 +12,10 @@ export default class Tool {
         tags: string[],
         id?: number
     ) {
+        this.id = id;
         this.title = title;
         this.link = link;
         this.description = description;
         this.tags = tags;
-        this.id = id;
     }
 }

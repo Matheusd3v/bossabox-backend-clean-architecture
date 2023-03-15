@@ -17,15 +17,10 @@ export default class ToolRepositorySqlite implements ToolRepository {
 
 
     public async saveTool(toolDatas: toolsDTO): Promise<Tool> {
-        const tagsJoined = toolDatas.tags.join(",");
-        const dataToSave = { ...toolDatas, tags: tagsJoined };
-
         const { id, link, description, tags, title } =
-            await database.manager.save(Tools, dataToSave);
+            await database.manager.save(Tools, toolDatas);
 
-        const tagsArr = tags.split(",");
-
-        return ToolAdapter.create(id, title, description, link, tagsArr);
+        return ToolAdapter.create(id, title, description, link, tags);
     }
 
     public async getToolById(id: number): Promise<Tool> {
@@ -35,27 +30,19 @@ export default class ToolRepositorySqlite implements ToolRepository {
             return {} as Tool
         }
 
-        const tag = tool.tags.split(",");
-
         return ToolAdapter.create(
             tool.id,
             tool.title,
             tool.description,
             tool.link,
-            tag
+            tool.tags
         );
     }
 
     public async getAllTools(): Promise<Tool[]> {
         const tools = await database.manager.find(Tools);
 
-        const formatTags = tools.map((tool) => {
-            const tags = tool.tags.split(",");
-
-            return { ...tool, tags };
-        });
-
-        return formatTags.map((tool) =>
+        return tools.map((tool) =>
             ToolAdapter.create(
                 tool.id,
                 tool.title,
@@ -71,13 +58,7 @@ export default class ToolRepositorySqlite implements ToolRepository {
             tags: ILike(`%${tag}%`),
         });
 
-        const formatTags = tools.map((tool) => {
-            const tags = tool.tags.split(",");
-
-            return { ...tool, tags };
-        });
-
-        return formatTags.map((tool) =>
+        return tools.map((tool) =>
             ToolAdapter.create(
                 tool.id,
                 tool.title,
