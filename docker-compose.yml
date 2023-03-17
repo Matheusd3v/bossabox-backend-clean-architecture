@@ -26,6 +26,4 @@ services:
     - ${PORT}
     ports: 
     - ${PORT}:${PORT}
-    env_file:
-      - .env
     command: sh -c 'yarn dev'
