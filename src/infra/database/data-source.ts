@@ -4,6 +4,12 @@ import "reflect-metadata";
 
 dotenv.config();
 
+enum ENV_TYPE {
+    development = 'development',
+    production = 'production',
+    test = 'test'
+}
+
 const databaseConfig: { [key: string]: DataSourceOptions } = {
     development: {
         type: "postgres",
@@ -27,7 +33,7 @@ const databaseConfig: { [key: string]: DataSourceOptions } = {
     },
 };
 
-const env = process.env.NODE_ENV || "development";
+const env = process.env.NODE_ENV === ENV_TYPE.development? ENV_TYPE.development : ENV_TYPE.test ;
 
 const AppDataSource = new DataSource(databaseConfig[env]);
 
