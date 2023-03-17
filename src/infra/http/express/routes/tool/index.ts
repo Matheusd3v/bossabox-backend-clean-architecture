@@ -20,7 +20,7 @@ const toolRoutes = (app: Express) => {
         ExpressAdapter.create(DeleteToolController.exec)
     );
 
-    app.use("/api/v1", route);
+    app.use(route);
 };
 
 export { toolRoutes };
