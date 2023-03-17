@@ -11,7 +11,7 @@ export default class RetrieveAllToolsController {
             const getTagedTools = new GetToolsByTag(repository);
             const toolsWithTag = await getTagedTools.exec(tag);
 
-            return toolsWithTag;
+            return { statusCode: 200, obj: toolsWithTag };
         }
 
         const getTools = new GetAllTools(repository);
