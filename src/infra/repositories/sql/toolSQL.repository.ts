@@ -4,11 +4,10 @@ import ToolAdapter from "../../../adapter/toolAdapter";
 import Tool from "../../../core/entities/tools";
 import toolsDTO from "../../../core/entities/toolsDTO";
 import ToolRepository from "../../../core/repositories/tool.repository";
-import { NotFoundError } from "../../../presentation/Errors/notFound.error";
 import database from "../../database/data-source";
 import Tools from "../../database/entities/Tools";
 
-export default class ToolRepositorySqlite implements ToolRepository {
+export default class ToolRepositorySql implements ToolRepository {
     public async alreadyExists(name: string): Promise<boolean> {
         const tool = await database.manager.findOne(Tools, { where: { title: ILike(name) } });
 

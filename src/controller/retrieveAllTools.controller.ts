@@ -1,11 +1,11 @@
 import GetAllTools from "../core/useCase/getAllTools.useCase";
 import GetToolsByTag from "../core/useCase/getToolsByTag.useCase";
-import ToolRepositorySqlite from "../infra/repositories/sql/toolSQLite.repository";
+import ToolRepositorySql from "../infra/repositories/sql/toolSQL.repository";
 
 export default class RetrieveAllToolsController {
     static async exec(_: any, __: any, qs: any) {
         const { tag } = qs;
-        const repository = new ToolRepositorySqlite();
+        const repository = new ToolRepositorySql();
 
         if (tag) {
             const getTagedTools = new GetToolsByTag(repository);

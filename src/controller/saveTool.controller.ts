@@ -1,9 +1,9 @@
 import SaveTool from "../core/useCase/saveTool.useCase";
-import ToolRepositorySqlite from "../infra/repositories/sql/toolSQLite.repository";
+import ToolRepositorySql from "../infra/repositories/sql/toolSQL.repository";
 
 export default class SaveToolController {
     static async exec(_: any, body: any) {
-        const repository = new ToolRepositorySqlite();
+        const repository = new ToolRepositorySql();
         const saveTool = new SaveTool(repository);
         const toolSaved = await saveTool.exec(body);
 
