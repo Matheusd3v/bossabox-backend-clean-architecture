@@ -1,0 +1,230 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Bossabox Clean Architecture",
+        "description": "A simple project to user manage his tools.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/tools": {
+            "post": {
+                "description": "Used to register new tool",
+                "summary": "Register tools",
+                "tags": ["Tool"],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegisterNewTool"
+                            },
+                            "example": {
+                                "title": "Notion",
+                                "link": "https://notion.so",
+                                "description": "All in one tool to organize teams and ideas. Write, plan, collaborate, and get organized. ",
+                                "tags": [
+                                    "organization",
+                                    "planning",
+                                    "collaboration",
+                                    "writing",
+                                    "calendar"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/RegisterNewToolResponse"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "proprierties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "error": "Tool title already exists."
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "description": "Retreive all tools register",
+                "summary": "Get tools",
+                "tags": ["Tool"],
+                "parameters": [
+                    {
+                        "name": "tag",
+                        "in": "query",
+                        "description": "Tag name"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "id": 1,
+                                        "title": "Notion",
+                                        "link": "https://notion.so",
+                                        "description": "All in one tool to organize teams and ideas. Write, plan, collaborate, and get organized. ",
+                                        "tags": [
+                                            "organization",
+                                            "planning",
+                                            "collaboration",
+                                            "writing",
+                                            "calendar"
+                                        ]
+                                    },
+                                    {
+                                        "id": 2,
+                                        "title": "json-server",
+                                        "link": "https://github.com/typicode/json-server",
+                                        "description": "Fake REST API based on a json schema. Useful for mocking and creating APIs for front-end devs to consume in coding challenges.",
+                                        "tags": [
+                                            "api",
+                                            "json",
+                                            "schema",
+                                            "node",
+                                            "github",
+                                            "rest"
+                                        ]
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/tools/{tool_id}": {
+            "delete": {
+                "description": "Delete a tool by id",
+                "summary": "Delete tool.",
+                "tags": ["Tool"],
+                "parameters": [
+                    {
+                        "name": "tool_id",
+                        "in": "path",
+                        "description": "Tool id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                },
+                                "example": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "proprierties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "error": "A invalid id has been send."
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "proprierties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "error": "Tool not found."
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "RegisterNewTool": {
+                "required": ["title", "link", "description", "tags"],
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string"
+                    },
+                    "link": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "RegisterNewToolResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "link": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
