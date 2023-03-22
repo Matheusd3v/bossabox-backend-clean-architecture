@@ -1,10 +1,10 @@
 import ToolAdapter from "../../../adapter/toolAdapter";
 import Tool from "../../../core/entities/tools";
-import ToolDTO from "../../../core/entities/toolsDTO";
 import ToolRepository from "../../../core/repositories/tool.repository";
+import { ToolDto } from "../../../presentation/dto";
 
 export default class ToolRepositoryMemory implements ToolRepository {
-    private toolsDB: ToolDTO[] = [];
+    private toolsDB: Tool[] = [];
     private lastId = 0;
     
     public async alreadyExists(name: string): Promise<boolean> {
@@ -16,7 +16,7 @@ export default class ToolRepositoryMemory implements ToolRepository {
         link,
         tags,
         title,
-    }: ToolDTO): Promise<Tool> {
+    }: ToolDto): Promise<Tool> {
         this.lastId += 1;
         const id = this.lastId;
 

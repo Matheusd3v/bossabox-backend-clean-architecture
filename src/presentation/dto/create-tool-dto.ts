@@ -1,5 +1,4 @@
-export default interface ToolDTO {
-    id?: number;
+export interface ToolDto {
     title: string;
     link: string;
     description: string;

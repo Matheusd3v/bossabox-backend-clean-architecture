@@ -1,7 +1,8 @@
 import Tool from "../entities/tools";
-import ToolDTO from "../entities/toolsDTO";
+import { ToolDto } from "../../presentation/dto";
+
 export default interface ToolRepository {
-    saveTool(toolDatas: ToolDTO): Promise<Tool>;
+    saveTool(toolDatas: ToolDto): Promise<Tool>;
     getToolById(id: number): Promise<Tool>;
     getAllTools(): Promise<Tool[]>;
     filterByTag(tag: string): Promise<Tool[]>;
