@@ -2,20 +2,21 @@ import { ILike } from "typeorm";
 
 import ToolAdapter from "../../../adapter/toolAdapter";
 import Tool from "../../../core/entities/tools";
-import toolsDTO from "../../../core/entities/toolsDTO";
 import ToolRepository from "../../../core/repositories/tool.repository";
+import { ToolDto, UpdateToolDto } from "../../../presentation/dto";
+import { NotFoundError } from "../../../presentation/Errors";
 import database from "../../database/data-source";
 import Tools from "../../database/entities/Tools";
 
 export default class ToolRepositorySql implements ToolRepository {
     public async alreadyExists(name: string): Promise<boolean> {
-        const tool = await database.manager.findOne(Tools, { where: { title: ILike(name) } });
+        const tool = await database.manager.count(Tools, { where: { title: ILike(name) } });
 
-        return Boolean(tool)
+        return Boolean(tool > 0)
     }
 
 
-    public async saveTool(toolDatas: toolsDTO): Promise<Tool> {
+    public async saveTool(toolDatas: ToolDto): Promise<Tool> {
         const { id, link, description, tags, title } =
             await database.manager.save(Tools, toolDatas);
 
@@ -70,5 +71,21 @@ export default class ToolRepositorySql implements ToolRepository {
 
     public async deleteTool(id: number): Promise<void> {
         await database.manager.delete(Tools, id);
+    }
+
+    public async updateToolById(id: number, toolUpdated: UpdateToolDto): Promise<Tool> {
+        const oldTool = await this.getToolById(id)
+
+        if (!oldTool.id) throw new NotFoundError(`Not Found Tool Id`)
+
+        const updated = await database.manager.save(Tools, { ...oldTool, ...toolUpdated})
+
+        return ToolAdapter.create(
+            updated.id,
+            updated.title,
+            updated.description,
+            updated.link,
+            updated.tags
+        )
     }
 }

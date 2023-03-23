@@ -1,5 +1,5 @@
 import Tool from "../entities/tools";
-import { ToolDto } from "../../presentation/dto";
+import { ToolDto, UpdateToolDto } from "../../presentation/dto";
 
 export default interface ToolRepository {
     saveTool(toolDatas: ToolDto): Promise<Tool>;
@@ -8,4 +8,5 @@ export default interface ToolRepository {
     filterByTag(tag: string): Promise<Tool[]>;
     deleteTool(id: number): Promise<void>;
     alreadyExists(name: string): Promise<boolean>;
+    updateToolById(id: number, toolUpdated: UpdateToolDto): Promise<Tool>
 }

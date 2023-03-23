@@ -5,6 +5,7 @@ import DeleteToolController from "../../../../../controller/deleteTool.controlle
 import RetrieveAllToolsController from "../../../../../controller/retrieveAllTools.controller";
 import RetrieveToolController from "../../../../../controller/retrieveTool.controller";
 import SaveToolController from "../../../../../controller/saveTool.controller";
+import UpdateToolController from "../../../../../controller/updateTool.controller";
 
 const toolRoutes = (app: Express) => {
     const route = Router();
@@ -19,6 +20,11 @@ const toolRoutes = (app: Express) => {
         "/tools/:id",
         ExpressAdapter.create(DeleteToolController.exec)
     );
+
+    route.patch(
+        "/tools/:id",
+        ExpressAdapter.create(UpdateToolController.exec)
+    )
 
     app.use(route);
 };

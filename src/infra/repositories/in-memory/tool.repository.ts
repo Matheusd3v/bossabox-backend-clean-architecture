@@ -1,14 +1,17 @@
 import ToolAdapter from "../../../adapter/toolAdapter";
 import Tool from "../../../core/entities/tools";
 import ToolRepository from "../../../core/repositories/tool.repository";
-import { ToolDto } from "../../../presentation/dto";
+import { ToolDto, UpdateToolDto } from "../../../presentation/dto";
+import { NotFoundError } from "../../../presentation/Errors";
 
 export default class ToolRepositoryMemory implements ToolRepository {
     private toolsDB: Tool[] = [];
     private lastId = 0;
     
     public async alreadyExists(name: string): Promise<boolean> {
-        return this.toolsDB.some(tool => tool.description === name)
+        return this.toolsDB.some(tool => {
+            return tool.description.toLocaleLowerCase() === name.toLocaleLowerCase()
+        })
     }
 
     public async saveTool({
@@ -68,9 +71,19 @@ export default class ToolRepositoryMemory implements ToolRepository {
 
     public async deleteTool(id: number): Promise<void> {
         const index = this.toolsDB.findIndex((tool) => tool.id === id);
-
-        const newDB = this.toolsDB.filter((tool, idx) => idx !== index);
+        const newDB = this.toolsDB.filter((_tool, idx) => idx !== index);
 
         this.toolsDB = newDB;
+    }
+
+    public async updateToolById(id: number, toolUpdated: UpdateToolDto): Promise<Tool> {
+        const index = this.toolsDB.findIndex((tool) => tool.id === id);   
+
+        if (index < 0) throw new NotFoundError(`Not Found Tool Id`)
+
+        const oldTool = this.toolsDB[index]     
+        this.toolsDB.splice(index, 1, { ...oldTool, ...toolUpdated })
+
+        return this.toolsDB[index]
     }
 }
