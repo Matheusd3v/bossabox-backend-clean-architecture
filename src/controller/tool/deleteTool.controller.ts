@@ -1,5 +1,5 @@
-import DeleteTool from "../core/useCase/deleteTool.useCase";
-import ToolRepositorySql from "../infra/repositories/sql/toolSQL.repository";
+import DeleteTool from "@core/useCase/deleteTool.useCase";
+import ToolRepositorySql from "@infra/repositories/sql/toolSQL.repository";
 
 export default class DeleteToolController {
     static async exec(params: any) {

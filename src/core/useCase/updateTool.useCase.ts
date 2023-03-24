@@ -1,6 +1,5 @@
-import { UpdateToolDto } from "../../presentation/dto";
-import { ConflictError } from "../../presentation/Errors";
-import Tool from "../entities/tools";
+import { UpdateToolDto } from "@presentation/dto";
+import { ConflictError } from "@presentation/Errors";
 import ToolRepository from "../repositories/tool.repository";
 
 export default class UpdateTool {

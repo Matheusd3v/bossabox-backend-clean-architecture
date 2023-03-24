@@ -1,5 +1,5 @@
-import { ToolDto } from "../../presentation/dto";
-import { ConflictError } from "../../presentation/Errors/conflict.error";
+import { ToolDto } from "@presentation/dto";
+import { ConflictError } from "@presentation/Errors/conflict.error";
 import ToolRepository from "../repositories/tool.repository";
 
 export default class SaveTool {

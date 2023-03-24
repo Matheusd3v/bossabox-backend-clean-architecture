@@ -1,4 +1,4 @@
-import { NotFoundError } from "../../presentation/Errors/notFound.error";
+import { NotFoundError } from "@presentation/Errors/notFound.error";
 import ToolRepository from "../repositories/tool.repository";
 
 export default class DeleteTool {

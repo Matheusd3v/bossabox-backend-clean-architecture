@@ -1,6 +1,6 @@
-import GetAllTools from "../core/useCase/getAllTools.useCase";
-import GetToolsByTag from "../core/useCase/getToolsByTag.useCase";
-import ToolRepositorySql from "../infra/repositories/sql/toolSQL.repository";
+import GetAllTools from "@core/useCase/getAllTools.useCase";
+import GetToolsByTag from "@core/useCase/getToolsByTag.useCase";
+import ToolRepositorySql from "@infra/repositories/sql/toolSQL.repository";
 
 export default class RetrieveAllToolsController {
     static async exec(_: any, __: any, qs: any) {

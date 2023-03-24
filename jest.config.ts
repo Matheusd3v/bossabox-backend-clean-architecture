@@ -10,5 +10,15 @@ export default {
         lines: 80,
         statements: 80,
       },
+    },
+    rootDir: "tests",
+    moduleNameMapper: {
+      "^@src/(.*)$": "<rootDir>/../src/$1",
+      "^@adapter/(.*)$": "<rootDir>/../src/adapter/$1",
+      "^@controller/(.*)$": "<rootDir>/../src/controller/$1",
+      "^@core/(.*)$": "<rootDir>/../src/core/$1",
+      "^@infra/(.*)$": "<rootDir>/../src/infra/$1",
+      "^@presentation/(.*)$": "<rootDir>/../src/presentation/$1",
     }
+
 };

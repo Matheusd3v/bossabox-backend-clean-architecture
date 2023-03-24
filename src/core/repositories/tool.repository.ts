@@ -1,5 +1,5 @@
 import Tool from "../entities/tools";
-import { ToolDto, UpdateToolDto } from "../../presentation/dto";
+import { ToolDto, UpdateToolDto } from "@presentation/dto";
 
 export default interface ToolRepository {
     saveTool(toolDatas: ToolDto): Promise<Tool>;

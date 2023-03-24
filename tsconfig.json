@@ -6,9 +6,26 @@
     "module": "commonjs",
     "resolveJsonModule": true,
     "outDir": "./dist",
+    "baseUrl": ".",
     "esModuleInterop": true,
+    "incremental": true,
     "forceConsistentCasingInFileNames": true,
+    "sourceMap": true,
     "strict": true,
-    "skipLibCheck": true
-  }
+    "skipLibCheck": true,
+    "paths": {
+      "@adapter/*": ["./src/adapter/*"],
+      "@controller/*": ["./src/controller/*"],
+      "@core/*": ["./src/core/*"],
+      "@infra/*": ["./src/infra/*"],
+      "@presentation/*": ["./src/presentation/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/*.test.ts",
+    "**/*.spec.ts"
+  ]
 }

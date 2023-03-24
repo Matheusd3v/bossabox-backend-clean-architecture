@@ -1,10 +1,10 @@
 import { ILike } from "typeorm";
 
-import ToolAdapter from "../../../adapter/toolAdapter";
-import Tool from "../../../core/entities/tools";
-import ToolRepository from "../../../core/repositories/tool.repository";
-import { ToolDto, UpdateToolDto } from "../../../presentation/dto";
-import { NotFoundError } from "../../../presentation/Errors";
+import ToolAdapter from "@adapter/toolAdapter";
+import Tool from "@core/entities/tools";
+import ToolRepository from "@core/repositories/tool.repository";
+import { ToolDto, UpdateToolDto } from "@presentation/dto";
+import { NotFoundError } from "@presentation/Errors";
 import database from "../../database/data-source";
 import Tools from "../../database/entities/Tools";
 

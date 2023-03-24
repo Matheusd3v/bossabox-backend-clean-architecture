@@ -1,5 +1,5 @@
-import GetTool from "../core/useCase/getTool.useCase";
-import ToolRepositorySql from "../infra/repositories/sql/toolSQL.repository";
+import GetTool from "@core/useCase/getTool.useCase";
+import ToolRepositorySql from "@infra/repositories/sql/toolSQL.repository";
 
 export default class RetrieveToolController {
     static async exec(params: any) {

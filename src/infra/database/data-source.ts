@@ -1,8 +1,8 @@
-import dotenv from "dotenv";
+import { config } from "dotenv";
 import { DataSource, DataSourceOptions } from "typeorm";
 import "reflect-metadata";
 
-dotenv.config();
+config();
 
 enum ENV_TYPE {
     development = 'development',

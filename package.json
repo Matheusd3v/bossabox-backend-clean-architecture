@@ -6,9 +6,10 @@
   "author": "Matheus",
   "license": "MIT",
   "scripts": {
-    "build": "tsc",
-    "dev": "ts-node-dev --transpile-only --inspect --ignore-watch node_modules --respawn src/infra/http/express/server.ts",
-    "start": "node dist/infra/http/express.js",
+    "prebuild": "rm -rf ./dist",
+    "build": "tsc --project tsconfig.json && tsconfig-replace-paths --project tsconfig.json -s ./src -o ./dist",
+    "dev": "ts-node-dev -r tsconfig-paths/register --transpile-only --inspect --ignore-watch node_modules --respawn src/infra/http/express/server.ts",
+    "start": "node dist/infra/http/express/server.js",
     "test": "jest --passWithNoTests --clearMocks --runInBand",
     "test:unit": "jest --passWithNoTests --runInBand --verbose ./tests/unit"
   },
@@ -34,6 +35,8 @@
     "supertest": "^6.2.4",
     "ts-jest": "^28.0.8",
     "ts-node-dev": "^2.0.0",
+    "tsconfig-paths": "^4.1.2",
+    "tsconfig-replace-paths": "^0.0.14",
     "typescript": "^4.7.4"
   },
   "dependencies": {

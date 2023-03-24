@@ -1,6 +1,6 @@
-import { Router, Express } from "express";
+import { Express } from "express";
 import swaggerUi from "swagger-ui-express"
-import swaggerJson from "../../../../docs/swagger.json"
+import swaggerJson from "@infra/docs/swagger.json"
 
 const docRouter = (app: Express) => {
     app.use(

@@ -1,5 +1,5 @@
-import SaveTool from "../core/useCase/saveTool.useCase";
-import ToolRepositorySql from "../infra/repositories/sql/toolSQL.repository";
+import SaveTool from "@core/useCase/saveTool.useCase";
+import ToolRepositorySql from "@infra/repositories/sql/toolSQL.repository";
 
 export default class SaveToolController {
     static async exec(_: any, body: any) {

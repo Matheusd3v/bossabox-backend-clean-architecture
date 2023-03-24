@@ -1,5 +1,5 @@
-import UpdateTool from "../core/useCase/updateTool.useCase";
-import ToolRepositorySql from "../infra/repositories/sql/toolSQL.repository";
+import UpdateTool from "@core/useCase/updateTool.useCase";
+import ToolRepositorySql from "@infra/repositories/sql/toolSQL.repository";
 
 export default class UpdateToolController {
     static async exec(params: any, body: any) {

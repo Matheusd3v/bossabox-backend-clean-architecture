@@ -1,11 +1,11 @@
 import { Router, Express } from "express";
 
-import ExpressAdapter from "../../../../../adapter/expressAdapter";
-import DeleteToolController from "../../../../../controller/deleteTool.controller";
-import RetrieveAllToolsController from "../../../../../controller/retrieveAllTools.controller";
-import RetrieveToolController from "../../../../../controller/retrieveTool.controller";
-import SaveToolController from "../../../../../controller/saveTool.controller";
-import UpdateToolController from "../../../../../controller/updateTool.controller";
+import ExpressAdapter from "@adapter/expressAdapter";
+import DeleteToolController from "@controller/tool/deleteTool.controller";
+import RetrieveAllToolsController from "@controller/tool/retrieveAllTools.controller";
+import RetrieveToolController from "@controller/tool/retrieveTool.controller";
+import SaveToolController from "@controller/tool/saveTool.controller";
+import UpdateToolController from "@controller/tool/updateTool.controller";
 
 const toolRoutes = (app: Express) => {
     const route = Router();
@@ -21,10 +21,7 @@ const toolRoutes = (app: Express) => {
         ExpressAdapter.create(DeleteToolController.exec)
     );
 
-    route.patch(
-        "/tools/:id",
-        ExpressAdapter.create(UpdateToolController.exec)
-    )
+    route.patch("/tools/:id", ExpressAdapter.create(UpdateToolController.exec));
 
     app.use(route);
 };
