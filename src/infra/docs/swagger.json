@@ -116,6 +116,85 @@
             }
         },
         "/tools/{tool_id}": {
+            "patch": {
+                "description": "Update a tool by id",
+                "summary": "Update tool.",
+                "tags": ["Tool"],
+                "parameters": [
+                    {
+                        "name": "tool_id",
+                        "in": "path",
+                        "description": "Tool id"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateToolSchema"
+                            },
+                            "example": {
+                                "title": "React",
+                                "link": "www.react.com",
+                                "description": "React description here",
+                                "tags": [
+                                    "react",
+                                    "javascript"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/RegisterNewToolResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "proprierties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "error": "Not Found Tool Id."
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "proprierties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "error": "A invalid id has been send."
+                                }
+                            }
+                        }
+                    }
+                }                
+            },
             "delete": {
                 "description": "Delete a tool by id",
                 "summary": "Delete tool.",
@@ -208,6 +287,26 @@
                     "id": {
                         "type": "number"
                     },
+                    "title": {
+                        "type": "string"
+                    },
+                    "link": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "UpdateToolSchema": {
+                "type": "object",
+                "properties": {
                     "title": {
                         "type": "string"
                     },
