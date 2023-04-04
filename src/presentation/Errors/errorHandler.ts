@@ -12,6 +12,7 @@ export class ErrorHandler {
             return res.status(status).json({ error: description });
         }
 
+        console.error(err)
         return res.status(500).json({ error: "Unexpected Error." });
     }
 }
