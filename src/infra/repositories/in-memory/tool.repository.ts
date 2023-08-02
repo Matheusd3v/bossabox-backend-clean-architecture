@@ -8,9 +8,9 @@ export default class ToolRepositoryMemory implements ToolRepository {
     private toolsDB: Tool[] = [];
     private lastId = 0;
     
-    public async alreadyExists(name: string): Promise<boolean> {
+    public async alreadyExists(title: string): Promise<boolean> {
         return this.toolsDB.some(tool => {
-            return tool.description.toLocaleLowerCase() === name.toLocaleLowerCase()
+            return tool.title.toLocaleLowerCase() === title
         })
     }
 
